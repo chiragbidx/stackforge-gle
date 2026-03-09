@@ -1,6 +1,7 @@
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
+// Users table (existing)
 export const users = pgTable("users", {
   id: text("id")
     .notNull()
@@ -15,6 +16,23 @@ export const users = pgTable("users", {
     .notNull()
     .defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+// Jobs table (new)
+export const jobs = pgTable("jobs", {
+  id: text("id")
+    .notNull()
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  title: text("title").notNull(),
+  company: text("company").notNull(),
+  location: text("location").notNull(), // "Remote", "Hybrid", or "Onsite"
+  applyUrl: text("apply_url").notNull(),
+  description: text("description").notNull(),
+  contactEmail: text("contact_email").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
 });
