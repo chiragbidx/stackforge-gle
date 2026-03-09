@@ -1,17 +1,8 @@
 "use server";
 import { db } from "@/lib/db/client";
 import { jobs } from "@/lib/db/schema";
-import { eq, desc } from "drizzle-orm";
-import { z } from "zod";
-
-export const jobSubmissionSchema = z.object({
-  title: z.string().min(3).max(100),
-  company: z.string().min(2).max(100),
-  location: z.enum(["Remote", "Hybrid", "Onsite"]),
-  applyUrl: z.string().url().max(255),
-  description: z.string().min(10).max(2048),
-  contactEmail: z.string().email().max(100),
-});
+import { desc } from "drizzle-orm";
+import { jobSubmissionSchema } from "@/lib/validation/jobSubmissionSchema";
 
 // Server action: create a job
 export async function createJob(formData: FormData) {
